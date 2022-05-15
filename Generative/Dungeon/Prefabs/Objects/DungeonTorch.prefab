@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1378697637151409038}
   - component: {fileID: 1425228796374328242}
   - component: {fileID: 5367365856036668784}
+  - component: {fileID: 7278179840019843446}
   m_Layer: 0
   m_Name: DungeonTorch
   m_TagString: Untagged
@@ -114,6 +115,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 30
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7278179840019843446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378697637153515824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0b4aa151e3f374ebc39fd28d248472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LightSource: {fileID: 0}
+  ParticleSource: {fileID: 6512505314733310987}
 --- !u!1 &6512382261205419067
 GameObject:
   m_ObjectHideFlags: 0
@@ -4694,7 +4709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6515470373237448447
 Transform:
   m_ObjectHideFlags: 0

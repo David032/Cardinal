@@ -12,7 +12,7 @@ public class DungeonLightObject : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            LightSource.SetActive(true);
+            //LightSource.SetActive(true);
             ParticleSource.SetActive(true);
         }
     }
@@ -21,7 +21,7 @@ public class DungeonLightObject : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            LightSource.SetActive(false);
+            //LightSource.SetActive(false);
             ParticleSource.SetActive(false);
         }
     }
