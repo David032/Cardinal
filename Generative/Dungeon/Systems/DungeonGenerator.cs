@@ -176,19 +176,38 @@ namespace Cardinal.Generative.Dungeon
             }
 
             //Oi, this isn't firing correctly!
-            bool toggle = false;
             foreach (GameObject item in DeactivatedRooms)
             {
-                if (!toggle)
+                GameObject nearest = GetClosestRoom(DeactivatedRooms, item);
+                if (Vector3.Distance(nearest.transform.position,item.transform.position) < 1.5f)
                 {
                     item.SetActive(true);
-                    toggle = true;
-                }
-                else
-                {
-                    toggle = false;
+                    DeactivatedRooms.Remove(nearest);
+                    DeactivatedRooms.Sort();
+                    Destroy(nearest);
                 }
             }
+        }
+
+        GameObject GetClosestRoom(List<GameObject> rooms, GameObject SeekingRoom)
+        {
+            List<GameObject> roomsToSearch = rooms;
+            roomsToSearch.Remove(SeekingRoom);
+            roomsToSearch.Sort();
+            GameObject bestTarget = null;
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 currentPosition = SeekingRoom.transform.position;
+            foreach (GameObject potentialNearest in roomsToSearch)
+            {
+                Vector3 directionToTarget = potentialNearest.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    bestTarget = potentialNearest;
+                }
+            }
+            return bestTarget;
         }
         public void GenerateSecondaryRooms() 
         {
@@ -886,24 +905,6 @@ namespace Cardinal.Generative.Dungeon
         }
         #endregion
 
-        #region ErrorCorrection
-
-        void FixMissingRooms() 
-        {
-            List<GameObject> DisabledRooms = new List<GameObject>();
-            foreach (GameObject room in GeneratedRooms)
-            {
-                if (!room.activeInHierarchy)
-                {
-                    DisabledRooms.Add(room);
-                }
-            }
-
-
-            
-        }
-
-        #endregion
     }
 }
 
