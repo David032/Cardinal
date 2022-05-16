@@ -175,6 +175,7 @@ namespace Cardinal.Generative.Dungeon
                 }
             }
 
+            //Oi, this isn't firing correctly!
             bool toggle = false;
             foreach (GameObject item in DeactivatedRooms)
             {
@@ -885,6 +886,24 @@ namespace Cardinal.Generative.Dungeon
         }
         #endregion
 
+        #region ErrorCorrection
+
+        void FixMissingRooms() 
+        {
+            List<GameObject> DisabledRooms = new List<GameObject>();
+            foreach (GameObject room in GeneratedRooms)
+            {
+                if (!room.activeInHierarchy)
+                {
+                    DisabledRooms.Add(room);
+                }
+            }
+
+
+            
+        }
+
+        #endregion
     }
 }
 
