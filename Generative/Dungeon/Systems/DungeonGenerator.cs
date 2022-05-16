@@ -183,7 +183,6 @@ namespace Cardinal.Generative.Dungeon
                 {
                     item.SetActive(true);
                     DeactivatedRooms.Remove(nearest);
-                    DeactivatedRooms.Sort();
                     Destroy(nearest);
                 }
             }
@@ -193,7 +192,6 @@ namespace Cardinal.Generative.Dungeon
         {
             List<GameObject> roomsToSearch = rooms;
             roomsToSearch.Remove(SeekingRoom);
-            roomsToSearch.Sort();
             GameObject bestTarget = null;
             float closestDistanceSqr = Mathf.Infinity;
             Vector3 currentPosition = SeekingRoom.transform.position;
