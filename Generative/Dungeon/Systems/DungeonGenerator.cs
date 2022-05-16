@@ -5,6 +5,8 @@ using System.Linq;
 using Unity.AI.Navigation;
 using Runic.Characteristics;
 using Runic.SceneManagement;
+using System;
+using Random = UnityEngine.Random;
 
 namespace Cardinal.Generative.Dungeon
 {
@@ -175,16 +177,19 @@ namespace Cardinal.Generative.Dungeon
                 }
             }
 
-            //Oi, this isn't firing correctly!
-            foreach (GameObject item in DeactivatedRooms)
+            //for (int i = 1; i < DeactivatedRooms.Count; i += 2)
+            //{
+            //    DeactivatedRooms[i].SetActive(true);
+            //}
+
+            Dictionary<GameObject, GameObject> PairedRooms = 
+                new Dictionary<GameObject, GameObject>();
+            foreach (GameObject room in DeactivatedRooms)
             {
-                GameObject nearest = GetClosestRoom(DeactivatedRooms, item);
-                if (Vector3.Distance(nearest.transform.position,item.transform.position) < 1.5f)
-                {
-                    item.SetActive(true);
-                    DeactivatedRooms.Remove(nearest);
-                    Destroy(nearest);
-                }
+                GameObject nearestRoom = 
+                    GetClosestRoom(DeactivatedRooms, room);
+                PairedRooms.Add(nearestRoom, room);
+                Debug.Log(PairedRooms);
             }
         }
 
@@ -207,6 +212,7 @@ namespace Cardinal.Generative.Dungeon
             }
             return bestTarget;
         }
+
         public void GenerateSecondaryRooms() 
         {
             List<GameObject> SecondaryRooms = new List<GameObject>();
