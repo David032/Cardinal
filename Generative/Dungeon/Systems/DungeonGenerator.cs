@@ -188,28 +188,58 @@ namespace Cardinal.Generative.Dungeon
             {
                 GameObject nearestRoom = 
                     GetClosestRoom(DeactivatedRooms, room);
-                PairedRooms.Add(nearestRoom, room);
-                Debug.Log(PairedRooms);
+                PairedRooms.Add(nearestRoom, room);                
+            }
+
+
+            Dictionary<GameObject, GameObject> CompletedPairedRooms =
+                new Dictionary<GameObject, GameObject>();
+            foreach (var item in PairedRooms)
+            {
+                print("Determining: " + item.Key + " & " 
+                    + item.Value);
+                if (CompletedPairedRooms.ContainsKey(item.Value))
+                {
+                    return;
+                }
+                //If key room has less doors than value room
+                if (item.Key.GetComponent<Room>().doorways.Count 
+                    < item.Value.GetComponent<Room>().doorways.Count)
+                {
+                    item.Value.SetActive(true);
+                    print("Selected " + item.Value);
+                }
+                //if value room has less doors than key room
+                else if (item.Key.GetComponent<Room>().doorways.Count
+                    > item.Value.GetComponent<Room>().doorways.Count)
+                {
+                    item.Key.SetActive(true);
+                    print("Selected " + item.Key);
+                }
+                else
+                {
+                    item.Key.SetActive(true);
+                    print("Selected " + item.Key);
+                }
+                CompletedPairedRooms.Add(item.Key, item.Value);
             }
         }
 
-        GameObject GetClosestRoom(List<GameObject> rooms, GameObject SeekingRoom)
+        GameObject GetClosestRoom(List<GameObject> rooms, 
+            GameObject SeekingRoom)
         {
-            List<GameObject> roomsToSearch = rooms;
-            roomsToSearch.Remove(SeekingRoom);
             GameObject bestTarget = null;
-            float closestDistanceSqr = Mathf.Infinity;
-            Vector3 currentPosition = SeekingRoom.transform.position;
-            foreach (GameObject potentialNearest in roomsToSearch)
+
+            Dictionary<GameObject, float> DistanceToRooms = new();
+            foreach (GameObject item in rooms)
             {
-                Vector3 directionToTarget = potentialNearest.transform.position - currentPosition;
-                float dSqrToTarget = directionToTarget.sqrMagnitude;
-                if (dSqrToTarget < closestDistanceSqr)
-                {
-                    closestDistanceSqr = dSqrToTarget;
-                    bestTarget = potentialNearest;
-                }
+                float distance = Vector3.Distance
+                    (SeekingRoom.transform.position, 
+                    item.transform.position);
+                DistanceToRooms.Add(item, distance);
             }
+            DistanceToRooms.OrderBy(x => x.Value);
+            bestTarget = DistanceToRooms.First().Key;
             return bestTarget;
         }
 
