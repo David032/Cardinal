@@ -101,6 +101,7 @@ namespace Cardinal.Generative.Dungeon
                     }
                     GenerateSecondaryRooms();
                     DoorCheck();
+                    CheckForGenerationErrors();
                     break;
                 case TypeOfDungeon.Special:
                     break;
@@ -143,12 +144,14 @@ namespace Cardinal.Generative.Dungeon
                 SpawnBoss();
             }
 
-            CheckForGenerationErrors();
+            //CheckForGenerationErrors();
         }
         private void CheckForGenerationErrors()
         {
             GeneratedRooms.Reverse();
             List<GameObject> DeactivatedRooms = new List<GameObject>();
+            List<Tuple<GameObject, GameObject>> 
+               DeactivatedRoomPairs = new();
 
             //Identify Overlapping Rooms
             foreach (GameObject item in GeneratedRooms)
@@ -171,16 +174,19 @@ namespace Cardinal.Generative.Dungeon
                         print("With a spacing of " +
                             Vector3.Distance(item.transform.position,
                             room.transform.position));
+                        Tuple<GameObject, GameObject> roomPair = 
+                            new(item, room); 
+                        DeactivatedRoomPairs.Add(roomPair);
                         item.SetActive(false);
                         DeactivatedRooms.Add(item);
                     }
                 }
             }
 
-            for (int i = 1; i < DeactivatedRooms.Count; i += 2)
-            {
-                DeactivatedRooms[i].SetActive(true);
-            }
+            //for (int i = 1; i < DeactivatedRooms.Count; i += 2)
+            //{
+            //    DeactivatedRooms[i].SetActive(true);
+            //}
 
             #region Room Pairing Calculations
             //Dictionary<GameObject, GameObject> PairedRooms = 
@@ -192,37 +198,30 @@ namespace Cardinal.Generative.Dungeon
             //    PairedRooms.Add(nearestRoom, room);                
             //}
 
-            //Dictionary<GameObject, GameObject> CompletedPairedRooms =
-            //    new Dictionary<GameObject, GameObject>();
-            //foreach (var item in PairedRooms)
-            //{
-            //    print("Determining: " + item.Key + " & " 
-            //        + item.Value);
-            //    if (CompletedPairedRooms.ContainsKey(item.Value))
-            //    {
-            //        return;
-            //    }
-            //    //If key room has less doors than value room
-            //    if (item.Key.GetComponent<Room>().doorways.Count 
-            //        < item.Value.GetComponent<Room>().doorways.Count)
-            //    {
-            //        item.Value.SetActive(true);
-            //        print("Selected " + item.Value);
-            //    }
-            //    //if value room has less doors than key room
-            //    else if (item.Key.GetComponent<Room>().doorways.Count
-            //        > item.Value.GetComponent<Room>().doorways.Count)
-            //    {
-            //        item.Key.SetActive(true);
-            //        print("Selected " + item.Key);
-            //    }
-            //    else
-            //    {
-            //        item.Key.SetActive(true);
-            //        print("Selected " + item.Key);
-            //    }
-            //    CompletedPairedRooms.Add(item.Key, item.Value);
-            //}
+            foreach (var item in DeactivatedRoomPairs)
+            {
+                print("Determining: " + item.Item1 + " & "
+                    + item.Item2);
+                //If A room has less doors than B room
+                if (item.Item1.GetComponent<Room>().doorways.Count
+                    < item.Item2.GetComponent<Room>().doorways.Count)
+                {
+                    item.Item1.SetActive(true);
+                    print("Selected " + item.Item1);
+                }
+                //if B room has less doors than A room
+                else if (item.Item1.GetComponent<Room>().doorways.Count
+                    > item.Item2.GetComponent<Room>().doorways.Count)
+                {
+                    item.Item2.SetActive(true);
+                    print("Selected " + item.Item2);
+                }
+                else
+                {
+                    item.Item1.SetActive(true);
+                    print("Selected " + item.Item1);
+                }
+            }
             #endregion
         }
 
