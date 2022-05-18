@@ -177,52 +177,53 @@ namespace Cardinal.Generative.Dungeon
                 }
             }
 
-            //for (int i = 1; i < DeactivatedRooms.Count; i += 2)
+            for (int i = 1; i < DeactivatedRooms.Count; i += 2)
+            {
+                DeactivatedRooms[i].SetActive(true);
+            }
+
+            #region Room Pairing Calculations
+            //Dictionary<GameObject, GameObject> PairedRooms = 
+            //    new Dictionary<GameObject, GameObject>();
+            //foreach (GameObject room in DeactivatedRooms)
             //{
-            //    DeactivatedRooms[i].SetActive(true);
+            //    GameObject nearestRoom = 
+            //        GetClosestRoom(DeactivatedRooms, room);
+            //    PairedRooms.Add(nearestRoom, room);                
             //}
 
-            Dictionary<GameObject, GameObject> PairedRooms = 
-                new Dictionary<GameObject, GameObject>();
-            foreach (GameObject room in DeactivatedRooms)
-            {
-                GameObject nearestRoom = 
-                    GetClosestRoom(DeactivatedRooms, room);
-                PairedRooms.Add(nearestRoom, room);                
-            }
-
-
-            Dictionary<GameObject, GameObject> CompletedPairedRooms =
-                new Dictionary<GameObject, GameObject>();
-            foreach (var item in PairedRooms)
-            {
-                print("Determining: " + item.Key + " & " 
-                    + item.Value);
-                if (CompletedPairedRooms.ContainsKey(item.Value))
-                {
-                    return;
-                }
-                //If key room has less doors than value room
-                if (item.Key.GetComponent<Room>().doorways.Count 
-                    < item.Value.GetComponent<Room>().doorways.Count)
-                {
-                    item.Value.SetActive(true);
-                    print("Selected " + item.Value);
-                }
-                //if value room has less doors than key room
-                else if (item.Key.GetComponent<Room>().doorways.Count
-                    > item.Value.GetComponent<Room>().doorways.Count)
-                {
-                    item.Key.SetActive(true);
-                    print("Selected " + item.Key);
-                }
-                else
-                {
-                    item.Key.SetActive(true);
-                    print("Selected " + item.Key);
-                }
-                CompletedPairedRooms.Add(item.Key, item.Value);
-            }
+            //Dictionary<GameObject, GameObject> CompletedPairedRooms =
+            //    new Dictionary<GameObject, GameObject>();
+            //foreach (var item in PairedRooms)
+            //{
+            //    print("Determining: " + item.Key + " & " 
+            //        + item.Value);
+            //    if (CompletedPairedRooms.ContainsKey(item.Value))
+            //    {
+            //        return;
+            //    }
+            //    //If key room has less doors than value room
+            //    if (item.Key.GetComponent<Room>().doorways.Count 
+            //        < item.Value.GetComponent<Room>().doorways.Count)
+            //    {
+            //        item.Value.SetActive(true);
+            //        print("Selected " + item.Value);
+            //    }
+            //    //if value room has less doors than key room
+            //    else if (item.Key.GetComponent<Room>().doorways.Count
+            //        > item.Value.GetComponent<Room>().doorways.Count)
+            //    {
+            //        item.Key.SetActive(true);
+            //        print("Selected " + item.Key);
+            //    }
+            //    else
+            //    {
+            //        item.Key.SetActive(true);
+            //        print("Selected " + item.Key);
+            //    }
+            //    CompletedPairedRooms.Add(item.Key, item.Value);
+            //}
+            #endregion
         }
 
         GameObject GetClosestRoom(List<GameObject> rooms, 
