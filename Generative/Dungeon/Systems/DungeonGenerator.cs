@@ -200,18 +200,26 @@ namespace Cardinal.Generative.Dungeon
 
             foreach (var item in DeactivatedRoomPairs)
             {
-                print("Determining: " + item.Item1 + " & "
-                    + item.Item2);
+                //Only need to check the 'other' room to see if it's
+                //an important one
+                Room roomB = item.Item2.GetComponent<Room>();
+                if (roomB.RoomFlags.Contains(RoomFlags.StartingRoom)
+                    || roomB.RoomFlags.Contains(RoomFlags.BossRoom))
+                {
+                    item.Item2.SetActive(true);
+                    break;
+                }
+
                 //If A room has less doors than B room
                 if (item.Item1.GetComponent<Room>().doorways.Count
-                    < item.Item2.GetComponent<Room>().doorways.Count)
+                    > item.Item2.GetComponent<Room>().doorways.Count)
                 {
                     item.Item1.SetActive(true);
                     print("Selected " + item.Item1);
                 }
                 //if B room has less doors than A room
                 else if (item.Item1.GetComponent<Room>().doorways.Count
-                    > item.Item2.GetComponent<Room>().doorways.Count)
+                    < item.Item2.GetComponent<Room>().doorways.Count)
                 {
                     item.Item2.SetActive(true);
                     print("Selected " + item.Item2);
