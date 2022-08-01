@@ -20,10 +20,10 @@ namespace Cardinal.AI.Events
             {
                 return;
             }
-            if (other.GetComponent<PlayerControls>().isInteracting)
+            if (false)
             {
-                other.GetComponent<PlayerControls>().Interact
-                    (InteractionTypes.Person);
+                //other.GetComponent<PlayerControls>().Interact
+                //    (InteractionTypes.Person);
                 DialogueManager.Instance.ConfigureDialogue(CompletionMessage);
                 DialogueManager.Instance.ShowWindow();
                 CreateEvent();

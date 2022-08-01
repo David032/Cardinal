@@ -28,10 +28,10 @@ namespace Cardinal.AI.World
             {
                 return;
             }
-            if (other.GetComponent<PlayerControls>().isInteracting)
+            if (false)
             {
-                other.GetComponent<PlayerControls>().Interact
-                    (InteractionTypes.Person);
+                //other.GetComponent<PlayerControls>().Interact
+                //    (InteractionTypes.Person);
                 transform.LookAt(other.transform);
                 switch (RequiredState)
                 {

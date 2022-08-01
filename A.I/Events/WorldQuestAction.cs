@@ -28,26 +28,26 @@ namespace Cardinal.AI.Events
             {
                 return;
             }
-            if (other.GetComponent<PlayerControls>().isInteracting && !hasCompleted)
-            {
-                if (!other.GetComponent<Player>().inventory.Inventory.Contains(RequiredItem))
-                {
-                    DialogueManager.Instance.ConfigureDialogue(InteractionMessage);
-                    DialogueManager.Instance.ShowWindow();
-                }
-                else
-                {
-                    other.GetComponent<PlayerControls>().Interact
-                        (InteractionTypes.Person);
-                    DialogueManager.Instance.ConfigureDialogue(CompletionMessage);
-                    DialogueManager.Instance.ShowWindow();
-                    CreateEvent();
-                    other.GetComponent<Player>().inventory.RemoveItem(RequiredItem);
-                    DefaultState.SetActive(false);
-                    ChangedState.SetActive(true);
-                }
+            //if (other.GetComponent<PlayerControls>().isInteracting && !hasCompleted)
+            //{
+            //    if (!other.GetComponent<Player>().inventory.Inventory.Contains(RequiredItem))
+            //    {
+            //        DialogueManager.Instance.ConfigureDialogue(InteractionMessage);
+            //        DialogueManager.Instance.ShowWindow();
+            //    }
+            //    else
+            //    {
+            //        other.GetComponent<PlayerControls>().Interact
+            //            (InteractionTypes.Person);
+            //        DialogueManager.Instance.ConfigureDialogue(CompletionMessage);
+            //        DialogueManager.Instance.ShowWindow();
+            //        CreateEvent();
+            //        other.GetComponent<Player>().inventory.RemoveItem(RequiredItem);
+            //        DefaultState.SetActive(false);
+            //        ChangedState.SetActive(true);
+            //    }
 
-            }
+            //}
         }
     }
 }

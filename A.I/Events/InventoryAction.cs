@@ -40,10 +40,10 @@ namespace Cardinal.AI.Events
             {
                 return;
             }
-            if (other.GetComponent<PlayerControls>().isInteracting)
+            if (false)
             {
-                other.GetComponent<PlayerControls>().Interact
-                    (InteractionTypes.Person);
+                //other.GetComponent<PlayerControls>().Interact
+                //    (InteractionTypes.Person);
                 transform.LookAt(other.transform);
                 if (!other.GetComponent<Player>().inventory.Inventory
                     .Contains(requiredItem) && !isComplete)
@@ -57,7 +57,7 @@ namespace Cardinal.AI.Events
                     DialogueManager.Instance.ConfigureDialogue(ThanksMessage);
                     DialogueManager.Instance.ShowWindow();
                     CreateEvent();
-                    Event @event = GetComponent<EventObject>().LinkedEvent;
+                    var @event = GetComponent<EventObject>().LinkedEvent;
                     MentalModel.events.Add(@event);
                     MentalModel.eventMemories.Add(new NPCEventMemory(@event));
                     isComplete = true;
