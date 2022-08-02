@@ -104,7 +104,7 @@ namespace Cardinal
         Medium,
         High
     }
-    public enum NodeType 
+    public enum NodeType
     {
         Chest,
         Resource
@@ -121,6 +121,14 @@ namespace Cardinal
         Average,
         AboveAverage,
         Exceptional
+    }
+
+    public enum Heading
+    {
+        North,
+        East,
+        South,
+        West,
     }
 
     #region Adjustor Message Elements
@@ -165,7 +173,7 @@ namespace Cardinal
         Achiever,
         Disruptor,
         Player,
-}
+    }
     public enum ResponseLocation
     {
         CurrentDungeon,
