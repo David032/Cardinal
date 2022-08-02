@@ -10,6 +10,7 @@ namespace Cardinal.Builder
     public class BuildInteractor : MonoBehaviour
     {
         public InputAction SelectAction;
+        public GameObject Indicator;
         [SerializeField]
         GameObject defaultTarget;
 
@@ -48,35 +49,54 @@ namespace Cardinal.Builder
             var ray = fireRay();
             if (Physics.Raycast(ray, out hit, 100f))
             {
-                Debug.DrawRay(ray.origin, ray.direction * 100, Color.red, 30f);
                 var objectHit = hit.transform.gameObject;
-                if (objectHit.GetComponent<TileData>() && objectHit != ViewTargetObject)
+                if (!objectHit.GetComponent<TileData>())
                 {
-                    ViewTargetObject = objectHit;
-                    CenterOnTarget(objectHit);
-                    CardinalBuilder.Instance.SelectedTile = objectHit;
-                    BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(true);
+                    return;
                 }
-                else
+
+
+                if (objectHit == ViewTargetObject)
                 {
-                    ViewTargetObject = null;
                     ReleaseTarget();
-                    CardinalBuilder.Instance.SelectedTile = null;
-                    BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(false);
+                    return;
                 }
+                else if (objectHit != ViewTargetObject &&
+                    ViewTargetObject != null)
+                {
+                    //should be doing nothing here
+                }
+                if (objectHit != ViewTargetObject && ViewTargetObject == null)
+                {
+                    CenterOnTarget(objectHit);
+                    return;
+                }
+
             }
         }
 
         void CenterOnTarget(GameObject target)
         {
+            ViewTargetObject = target;
+            Indicator.transform.position = target.transform.position;
+            CardinalBuilder.Instance.SelectedTile = target;
+            BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(true);
             MainCam.LookAt = target.transform;
         }
 
         void ReleaseTarget()
         {
+            ViewTargetObject = null;
+            Indicator.transform.position = Vector3.down;
+            CardinalBuilder.Instance.SelectedTile = null;
+            BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(false);
             MainCam.LookAt = defaultTarget.transform;
         }
 
+        public void RemoteReleaseTarget()
+        {
+            ReleaseTarget();
+        }
         public Ray fireRay()
         {
 #if !UNITY_ANDROID

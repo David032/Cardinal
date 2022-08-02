@@ -33,11 +33,13 @@ namespace Cardinal.Builder
 
         public void PlaceWoodFoundation(TileData tile)
         {
-            //needs lock to prevent overplacing
-            var newFloor = Instantiate(WoodFoundations);
-            tile.construct = newFloor;
-            newFloor.transform.parent = tile.transform;
-            newFloor.transform.position = Vector3.zero;
+            if (tile.construct == null)
+            {
+                var newFloor = Instantiate(WoodFoundations);
+                tile.construct = newFloor;
+                newFloor.transform.parent = tile.transform;
+                newFloor.transform.localPosition.Set(5, 0, 0);
+            }
         }
     }
 }
