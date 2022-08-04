@@ -23,11 +23,11 @@ namespace Cardinal.Builder
         List<GameObject> tiles = new();
         public int AreaSize = 5;
 
-        GameObject _selectedTile;
-        public GameObject SelectedTile
+        GameObject _selectedObject;
+        public GameObject SelectedObject
         {
-            get => _selectedTile;
-            set => _selectedTile = value;
+            get => _selectedObject;
+            set => _selectedObject = value;
         }
         // Start is called before the first frame update
         void Start()
@@ -38,12 +38,12 @@ namespace Cardinal.Builder
         // Update is called once per frame
         void Update()
         {
-
+            UpdateTiles();
         }
 
         public bool PlaceBuilding(string Name)
         {
-            var tile = _selectedTile.GetComponent<TileData>();
+            var tile = _selectedObject.GetComponent<TileData>();
             if (tile.construct == null)
             {
                 var building = Buildings.Where
@@ -54,8 +54,13 @@ namespace Cardinal.Builder
                 }
                 var newBuild = Instantiate(building.Structure);
                 tile.construct = newBuild;
+                var position = newBuild.transform.position;
                 newBuild.transform.parent = tile.transform;
-                newBuild.transform.localPosition = new Vector3(5, 0, 0);
+                newBuild.transform.localPosition = position;
+                if (newBuild.GetComponent<BuildingData>())
+                {
+                    newBuild.GetComponent<BuildingData>().OnPlace();
+                }
                 UpdateTiles();
                 return true;
             }
@@ -84,6 +89,15 @@ namespace Cardinal.Builder
             foreach (var item in GetTiles())
             {
                 item.UpdateAdjacentTiles();
+                if (item.construct != null)
+                {
+                    if (item.construct.GetComponent<BuildingData>())
+                    {
+                        item.construct.GetComponent<BuildingData>()
+                            .BuildingUpdate();
+                    }
+                }
+
             }
         }
     }

@@ -50,26 +50,48 @@ namespace Cardinal.Builder
             if (Physics.Raycast(ray, out hit, 100f))
             {
                 var objectHit = hit.transform.gameObject;
-                if (!objectHit.GetComponent<TileData>())
+                print(objectHit);
+                if (objectHit.GetComponent<TileData>())
                 {
-                    return;
+                    if (objectHit == ViewTargetObject)
+                    {
+                        ReleaseTarget();
+                        BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(false);
+                        CardinalBuilder.Instance.SelectedObject = null;
+                        return;
+                    }
+                    else if (objectHit != ViewTargetObject &&
+                        ViewTargetObject != null)
+                    {
+                        //should be doing nothing here
+                    }
+                    if (objectHit != ViewTargetObject && ViewTargetObject == null)
+                    {
+                        CenterOnTarget(objectHit);
+                        BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(true);
+                        CardinalBuilder.Instance.SelectedObject = objectHit;
+                        return;
+                    }
                 }
-
-
-                if (objectHit == ViewTargetObject)
+                if (objectHit.GetComponent<BuildingData>())
                 {
-                    ReleaseTarget();
-                    return;
-                }
-                else if (objectHit != ViewTargetObject &&
-                    ViewTargetObject != null)
-                {
-                    //should be doing nothing here
-                }
-                if (objectHit != ViewTargetObject && ViewTargetObject == null)
-                {
-                    CenterOnTarget(objectHit);
-                    return;
+                    if (objectHit == ViewTargetObject)
+                    {
+                        ReleaseTarget();
+                        CardinalBuilder.Instance.SelectedObject = null;
+                        return;
+                    }
+                    else if (objectHit != ViewTargetObject &&
+                        ViewTargetObject != null)
+                    {
+                        //should be doing nothing here
+                    }
+                    if (objectHit != ViewTargetObject && ViewTargetObject == null)
+                    {
+                        CenterOnTarget(objectHit);
+                        CardinalBuilder.Instance.SelectedObject = objectHit;
+                        return;
+                    }
                 }
 
             }
@@ -79,8 +101,6 @@ namespace Cardinal.Builder
         {
             ViewTargetObject = target;
             Indicator.transform.position = target.transform.position;
-            CardinalBuilder.Instance.SelectedTile = target;
-            BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(true);
             MainCam.LookAt = target.transform;
         }
 
@@ -88,8 +108,6 @@ namespace Cardinal.Builder
         {
             ViewTargetObject = null;
             Indicator.transform.position = Vector3.down;
-            CardinalBuilder.Instance.SelectedTile = null;
-            BuilderInterfaceManager.Instance.ToggleBuildFoundationsBar(false);
             MainCam.LookAt = defaultTarget.transform;
         }
 
