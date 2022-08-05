@@ -10,6 +10,7 @@ namespace Cardinal.Builder
     public class BuildInteractor : MonoBehaviour
     {
         public InputAction SelectAction;
+        public InputAction SaveAction;
         public GameObject Indicator;
         [SerializeField]
         GameObject defaultTarget;
@@ -20,16 +21,19 @@ namespace Cardinal.Builder
         private void Awake()
         {
             SelectAction.performed += OnSelect;
+            SaveAction.performed += OnManualSave;
         }
 
         private void OnEnable()
         {
             SelectAction.Enable();
+            SaveAction.Enable();
         }
 
         private void OnDisable()
         {
             SelectAction.Disable();
+            SaveAction.Disable();
         }
 
         void Start()
@@ -50,7 +54,7 @@ namespace Cardinal.Builder
             if (Physics.Raycast(ray, out hit, 100f))
             {
                 var objectHit = hit.transform.gameObject;
-                print(objectHit);
+                #region TileSelected
                 if (objectHit.GetComponent<TileData>())
                 {
                     if (objectHit == ViewTargetObject)
@@ -73,6 +77,9 @@ namespace Cardinal.Builder
                         return;
                     }
                 }
+                #endregion
+
+                #region BuildingSelected
                 if (objectHit.GetComponent<BuildingData>())
                 {
                     if (objectHit == ViewTargetObject)
@@ -93,8 +100,36 @@ namespace Cardinal.Builder
                         return;
                     }
                 }
-
+                if (objectHit.GetComponentInParent<BuildingData>())
+                {
+                    var actualBuilding = objectHit
+                        .GetComponentInParent<BuildingData>().gameObject;
+                    if (actualBuilding == ViewTargetObject)
+                    {
+                        ReleaseTarget();
+                        CardinalBuilder.Instance.SelectedObject = null;
+                        return;
+                    }
+                    else if (actualBuilding != ViewTargetObject &&
+                        ViewTargetObject != null)
+                    {
+                        //should be doing nothing here
+                    }
+                    if (actualBuilding != ViewTargetObject
+                        && ViewTargetObject == null)
+                    {
+                        CenterOnTarget(actualBuilding);
+                        CardinalBuilder.Instance.SelectedObject = actualBuilding;
+                        return;
+                    }
+                }
+                #endregion
             }
+        }
+
+        void OnManualSave(InputAction.CallbackContext context)
+        {
+            AreaManager.Instance.SaveData();
         }
 
         void CenterOnTarget(GameObject target)

@@ -14,6 +14,7 @@ namespace Cardinal.Builder
         public bool isStructureBuildable = true;
         public bool isTerrainBuildable = false;
         public bool containsResource = false;
+        public bool isUsable = true;
 
         [SerializeField]
         TileData _NorthTile;
