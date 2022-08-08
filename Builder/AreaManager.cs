@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Cardinal.Builder
 {
@@ -94,6 +95,7 @@ namespace Cardinal.Builder
             }
 
             _data = JsonUtility.ToJson(saveData);
+            //_data = JsonConvert.SerializeObject(saveData);
             File.WriteAllText(dataPath + ".json", _data);
 
         }
