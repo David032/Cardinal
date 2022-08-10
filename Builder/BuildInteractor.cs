@@ -11,6 +11,7 @@ namespace Cardinal.Builder
     {
         public InputAction SelectAction;
         public InputAction SaveAction;
+        public InputAction LoadAction;
         public GameObject Indicator;
         [SerializeField]
         GameObject defaultTarget;
@@ -22,18 +23,21 @@ namespace Cardinal.Builder
         {
             SelectAction.performed += OnSelect;
             SaveAction.performed += OnManualSave;
+            LoadAction.performed += OnManualLoad;
         }
 
         private void OnEnable()
         {
             SelectAction.Enable();
             SaveAction.Enable();
+            LoadAction.Enable();
         }
 
         private void OnDisable()
         {
             SelectAction.Disable();
             SaveAction.Disable();
+            LoadAction.Enable();
         }
 
         void Start()
@@ -129,9 +133,12 @@ namespace Cardinal.Builder
 
         void OnManualSave(InputAction.CallbackContext context)
         {
-            AreaManager.Instance.SaveData();
+            AreaManager.Instance.SaveAreaData();
         }
-
+        void OnManualLoad(InputAction.CallbackContext context)
+        {
+            AreaManager.Instance.LoadAreaData();
+        }
         void CenterOnTarget(GameObject target)
         {
             ViewTargetObject = target;

@@ -24,14 +24,15 @@ namespace Cardinal.Builder
 
     public class BuildingData : MonoBehaviour
     {
+        public string Name;
         public double buildTime;
         public GameObject Foundation;
         public GameObject Structure;
-
         public DateTime StartDate;
         public DateTime CompletionDate;
         public bool built = false;
         public Size BuildingSize;
+
 
         // Start is called before the first frame update
         void Start()

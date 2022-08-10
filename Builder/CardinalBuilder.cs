@@ -83,7 +83,6 @@ namespace Cardinal.Builder
             }
             return tileDatas;
         }
-
         void UpdateTiles()
         {
             foreach (var item in GetTiles())
@@ -99,6 +98,11 @@ namespace Cardinal.Builder
                 }
 
             }
+        }
+
+        public List<Building> BuildingsList()
+        {
+            return Buildings;
         }
     }
 }
