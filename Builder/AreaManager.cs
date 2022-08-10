@@ -28,11 +28,11 @@ namespace Cardinal.Builder
 
         public void SaveAreaData()
         {
-            var saveData = DataManager.Instance.CreateNewSave();
+            var saveData = DataManager.Instance.GetSaveData();
             foreach (var item in CardinalBuilder.Instance.GetTiles())
             {
                 RegionFragment fragment = new();
-                fragment.SetLocation(item.xPos, item.yPos);
+                fragment.SetLocation(item.yPos, item.xPos);
                 if (item.construct != null)
                 {
                     var data = item.construct.GetComponent<BuildingData>();
@@ -58,14 +58,25 @@ namespace Cardinal.Builder
                 && x.yPos == item.yPos).FirstOrDefault();
                 cardinalBuilder.SelectedObject = selectedTile.gameObject;
                 if (item.buildingName != null ||
-                    item.buildingName != string.Empty)
+                    item.buildingName != string.Empty ||
+                    item.buildingName != "")
                 {
                     _ = cardinalBuilder.PlaceBuilding(item.buildingName);
                     var tileData = cardinalBuilder.SelectedObject.GetComponent<TileData>();
-                    var buildingData = tileData.construct.GetComponent<BuildingData>();
 
-                    buildingData.StartDate = item.startDate;
-                    buildingData.CompletionDate = item.completionDate;
+                    try
+                    {
+                        var buildingData =
+                            tileData.construct.GetComponent<BuildingData>();
+
+                        buildingData.StartDate = item.startDate;
+                        buildingData.CompletionDate = item.completionDate;
+                    }
+                    catch (Exception)
+                    {
+                        print("Oi!");
+                    }
+
                 }
             }
         }
