@@ -5,7 +5,7 @@ using System;
 
 namespace Cardinal.Builder
 {
-    [System.Serializable]
+    [Serializable]
     public class Size
     {
         [SerializeField]
@@ -22,6 +22,42 @@ namespace Cardinal.Builder
         }
     }
 
+    [Serializable]
+    public class OccupancyData
+    {
+        List<Runic.Entities.Entity> residentEntities;
+        [SerializeField]
+        int MaxBeds;
+        int CurrentlyOccupiedBeds;
+        //[SerializeField]
+        //int MaxOccupants;
+        //int CurrentOccupantCount;
+
+        //Assume suitablity check has already been passed
+        public void AddOccupant(Runic.Entities.Entity resident)
+        {
+            residentEntities.Add(resident);
+            CurrentlyOccupiedBeds++;
+        }
+
+        public int AvailableBeds()
+        {
+            return MaxBeds - CurrentlyOccupiedBeds;
+        }
+
+        public bool HasSpace()
+        {
+            if (CurrentlyOccupiedBeds == MaxBeds)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
     public class BuildingData : MonoBehaviour
     {
         public string Name;
@@ -32,6 +68,7 @@ namespace Cardinal.Builder
         public DateTime CompletionDate;
         public bool built = false;
         public Size BuildingSize;
+        public OccupancyData BuildingOccupants;
 
 
         // Start is called before the first frame update
