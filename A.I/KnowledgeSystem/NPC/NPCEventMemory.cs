@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cardinal.AI.Events;
 using Event = Cardinal.AI.Events.Event;
-using Runic.Managers;
+//using Runic.Managers;
 
 namespace Cardinal.AI.NPC
 {
@@ -17,7 +17,7 @@ namespace Cardinal.AI.NPC
 
         public NPCEventMemory(Event eventToAdd)
         {
-            learntTime = GameObject.FindGameObjectWithTag("GameController").GetComponent<TimeManager>().getRawTime();
+            //learntTime = GameObject.FindGameObjectWithTag("GameController").GetComponent<TimeManager>().getRawTime();
             learntEvent = eventToAdd;
             learntEventName = eventToAdd.EventId;
         }

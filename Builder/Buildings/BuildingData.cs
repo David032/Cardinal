@@ -86,9 +86,7 @@ namespace Cardinal.Builder
         public void OnPlace()
         {
             StartDate = System.DateTime.Now;
-            print("StartDate: " + StartDate);
             CompletionDate = StartDate.AddSeconds(buildTime);
-            print("CompletionDate: " + CompletionDate);
         }
 
         public void BuildingUpdate()

@@ -1,4 +1,4 @@
-﻿using Runic.Managers;
+﻿//using Runic.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,13 +35,13 @@ namespace Cardinal.AI.NPC
 
         public Transform workplace;
         public Transform homeplace;
-        TimeManager timeManager;
+        //TimeManager timeManager;
 
         // Start is called before the first frame update
         void Start()
         {
             agent = GetComponent<NavMeshAgent>();
-            timeManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<TimeManager>();
+            //timeManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<TimeManager>();
 
             switch (NPCBehaviourModel)
             {
@@ -73,14 +73,14 @@ namespace Cardinal.AI.NPC
                     break;
 
                 case Behaviour.Trader:
-                    if (timeManager.timeCycle == Cycle.Day)
-                    {
-                        agent.SetDestination(workplace.transform.position);
-                    }
-                    else if (timeManager.timeCycle == Cycle.Night)
-                    {
-                        agent.SetDestination(homeplace.transform.position);
-                    }
+                    //if (timeManager.timeCycle == Cycle.Day)
+                    //{
+                    //    agent.SetDestination(workplace.transform.position);
+                    //}
+                    //else if (timeManager.timeCycle == Cycle.Night)
+                    //{
+                    //    agent.SetDestination(homeplace.transform.position);
+                    //}
 
                     if (Vector3.Distance(this.transform.position, homeplace.transform.position) < 5f)
                     {
@@ -130,7 +130,9 @@ namespace Cardinal.AI.NPC
         private void PatrollerBehaviour()
         {
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            {
                 GotoNextPoint();
+            }
         }
 
         private void WandererBehaviour()
@@ -148,7 +150,10 @@ namespace Cardinal.AI.NPC
         void GotoNextPoint()
         {
             if (PatrollerPoints.Length == 0)
+            {
                 return;
+            }
+
             agent.destination = PatrollerPoints[PatrollerDestPoint].position;
             PatrollerDestPoint = (PatrollerDestPoint + 1) % PatrollerPoints.Length;
         }

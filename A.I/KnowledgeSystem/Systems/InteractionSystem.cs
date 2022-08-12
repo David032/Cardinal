@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 using Cardinal.AI.Events;
 using Cardinal.AI.NPC;
 using Event = Cardinal.AI.Events.Event;
-using Runic.Managers;
+//using Runic.Managers;
 
 namespace Cardinal.AI
 {
@@ -15,7 +15,7 @@ namespace Cardinal.AI
     {
         InteractionSystemController controller;
         //SpawnableController spawnables;
-        TimeManager timekeeper;
+        //TimeManager timekeeper;
         EventManager cardinal;
 
         void Start()
@@ -23,8 +23,8 @@ namespace Cardinal.AI
             controller = GameObject.FindGameObjectWithTag("GameController").
                 GetComponent<InteractionSystemController>();
             //spawnables = GameObject.FindGameObjectWithTag("GameController").GetComponent<SpawnableController>();
-            timekeeper = GameObject.FindGameObjectWithTag("GameController").
-                GetComponent<TimeManager>();
+            //timekeeper = GameObject.FindGameObjectWithTag("GameController").
+            //    GetComponent<TimeManager>();
             cardinal = GameObject.FindGameObjectWithTag("GameController").
                 GetComponentInChildren<EventManager>();
         }
@@ -45,14 +45,14 @@ namespace Cardinal.AI
             npcB.likes.Sort();
             npcB.dislikes.Sort();
 
-            foreach (Categories item in npcA.likes)
+            foreach (var item in npcA.likes)
             {
                 if (npcB.likes.Contains(item))
                 {
                     commonLikes += 1;
                 }
             }
-            foreach (Categories item in npcA.dislikes)
+            foreach (var item in npcA.dislikes)
             {
                 if (npcB.dislikes.Contains(item))
                 {
@@ -63,7 +63,7 @@ namespace Cardinal.AI
             int commonalities = commonLikes + commonDislikes;
             int elements = elementsA + elementsB;
 
-            float trustVal = mood * (commonalities / elements + minimumTrust);
+            float trustVal = mood * ((commonalities / elements) + minimumTrust);
             return trustVal;
         }
 
@@ -73,14 +73,14 @@ namespace Cardinal.AI
             int likesInEvent = 0;
             int dislikesInEvent = 0;
 
-            foreach (Categories item in npc.likes)
+            foreach (var item in npc.likes)
             {
                 if (eventId.Categories.Contains(item))
                 {
                     likesInEvent += 1;
                 }
             }
-            foreach (Categories item in npc.dislikes)
+            foreach (var item in npc.dislikes)
             {
                 if (eventId.Categories.Contains(item))
                 {
@@ -95,14 +95,15 @@ namespace Cardinal.AI
         //Calculate the decay value of an event
         public float CalculateDecay(NPCEventMemory eventMemory)
         {
-            float currentTime = 
-                GameObject.FindGameObjectWithTag("GameController")
-                .GetComponent<TimeManager>().getRawTime();
+            //float currentTime = 
+            //    GameObject.FindGameObjectWithTag("GameController")
+            //    .GetComponent<TimeManager>().getRawTime();
 
-            float decayTime = 1 - 
-                (currentTime - eventMemory.learntTime) / controller.MEMORYDECAY;
+            //float decayTime = 1 -
+            //    ((currentTime - eventMemory.learntTime) / controller.MEMORYDECAY);
 
-            return decayTime;
+            //return decayTime;
+            return -1;
         }
 
         //Calculate the value of an event
@@ -117,13 +118,13 @@ namespace Cardinal.AI
             }
 
             NPCEventMemory thisEventKnowledge;
-            foreach (NPCEventMemory item in npc.eventMemories)
+            foreach (var item in npc.eventMemories)
             {
                 if (item.learntEvent == eventId)
                 {
                     thisEventKnowledge = item;
-                    fValue = CalculateDecay(thisEventKnowledge) 
-                        * (CalculateCommonalities(npc, eventId)) * eventId.weight;
+                    fValue = CalculateDecay(thisEventKnowledge)
+                        * CalculateCommonalities(npc, eventId) * eventId.weight;
                     thisEventKnowledge.fValue = fValue;
                     return fValue;
                 }
@@ -139,7 +140,7 @@ namespace Cardinal.AI
             float sumOfValueFunctions = 0;
             float opinion = 0;
 
-            foreach (NPCEventMemory item in npc.eventMemories)
+            foreach (var item in npc.eventMemories)
             {
                 sumOfValueFunctions += item.fValue;
             }
@@ -159,7 +160,7 @@ namespace Cardinal.AI
             float reliabilityChance = Random.Range(0f, 1f);
 
             //Prior interaction check
-            foreach (NPCInteractionMemory item in npcA.interactedNPCS)
+            foreach (var item in npcA.interactedNPCS)
             {
                 if (item.interactedWith == npcB)
                 {
@@ -199,13 +200,13 @@ namespace Cardinal.AI
                     print("DEBUG: EVENT MUTATED! " + npcA.gameObject + "'s attempt to tell " + npcB.gameObject + " about " + eventToShare.EventId + " went wrong. " +
                         "The trust value was" + trustVal + " , the comm value " + commChance + " and the mutation value " + reliabilityChance);
 
-                    Event mutatedEvent = cardinal.gameObject.AddComponent<Event>();
+                    var mutatedEvent = cardinal.gameObject.AddComponent<Event>();
                     mutatedEvent.EventId = "Mutated: " + eventToShare.EventId;
                     mutatedEvent.weight = eventToShare.weight;
                     mutatedEvent.memorable = eventToShare.memorable;
 
-                    List<Categories> originalEventsCats = new List<Categories>();
-                    foreach (Categories item in eventToShare.Categories)
+                    List<Categories> originalEventsCats = new();
+                    foreach (var item in eventToShare.Categories)
                     {
                         originalEventsCats.Add(item);
                     }
@@ -238,8 +239,8 @@ namespace Cardinal.AI
 
         private void AddInteraction(NPCMentalModel npcA, NPCMentalModel npcB, float trustVal)
         {
-            npcA.interactedNPCS.Add(new NPCInteractionMemory(npcB, trustVal, timekeeper.getRawTime()));
-            npcB.interactedNPCS.Add(new NPCInteractionMemory(npcA, trustVal, timekeeper.getRawTime()));
+            //npcA.interactedNPCS.Add(new NPCInteractionMemory(npcB, trustVal, timekeeper.getRawTime()));
+            //npcB.interactedNPCS.Add(new NPCInteractionMemory(npcA, trustVal, timekeeper.getRawTime()));
         }
     }
 }

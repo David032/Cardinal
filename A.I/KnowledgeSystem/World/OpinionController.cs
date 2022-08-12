@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cardinal.AI.NPC;
-using Runic.Managers;
+//using Runic.Managers;
 
 namespace Cardinal.AI.World
 {
@@ -16,7 +16,7 @@ namespace Cardinal.AI.World
         OnUpdate,
         OnDayChange,
     }
-    public enum Behaviour 
+    public enum Behaviour
     {
         ToggleActive
     }
@@ -28,7 +28,7 @@ namespace Cardinal.AI.World
         public Requirement RequiredState = Requirement.GreaterThan;
         public UpdateMethod WhenToUpdate = UpdateMethod.OnUpdate;
         public Behaviour WhatToDo = Behaviour.ToggleActive;
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float OpinionLevelRequired = 0.5f;
         public bool OneShot = false;
         bool hasFired = false;
@@ -37,7 +37,7 @@ namespace Cardinal.AI.World
         {
             if (WhenToUpdate == UpdateMethod.OnDayChange)
             {
-                TimeManager.Instance.DayChange.AddListener(() => CheckForStateChange());
+                //TimeManager.Instance.DayChange.AddListener(() => CheckForStateChange());
             }
         }
 
@@ -49,7 +49,7 @@ namespace Cardinal.AI.World
             }
         }
 
-        void CheckForStateChange() 
+        void CheckForStateChange()
         {
             if (OneShot && !hasFired)
             {
@@ -96,12 +96,12 @@ namespace Cardinal.AI.World
 
         }
 
-        void ExecuteChange() 
+        void ExecuteChange()
         {
             switch (WhatToDo)
             {
                 case Behaviour.ToggleActive:
-                    foreach (GameObject item in ObjectsToActOn)
+                    foreach (var item in ObjectsToActOn)
                     {
                         item.SetActive(!item.activeSelf);
                     }
