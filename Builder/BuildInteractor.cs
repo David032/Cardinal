@@ -1,3 +1,4 @@
+using Cardinal.AI.Entities;
 using CardinalSystems.Builder;
 using Cinemachine;
 using System.Collections;
@@ -134,10 +135,12 @@ namespace Cardinal.Builder
         void OnManualSave(InputAction.CallbackContext context)
         {
             AreaManager.Instance.SaveAreaData();
+            EntityManager.Instance.SaveCharacters();
         }
         void OnManualLoad(InputAction.CallbackContext context)
         {
             AreaManager.Instance.LoadAreaData();
+            EntityManager.Instance.LoadCharacters();
         }
         void CenterOnTarget(GameObject target)
         {

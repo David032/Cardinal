@@ -37,6 +37,7 @@ namespace Cardinal.Builder
                 {
                     var data = item.construct.GetComponent<BuildingData>();
                     fragment.buildingName = data.Name;
+                    fragment.BuildTime = data.buildTime;
 
                 }
                 saveData.Tiles.Add(fragment);
@@ -68,6 +69,7 @@ namespace Cardinal.Builder
                     {
                         var buildingData =
                             tileData.construct.GetComponent<BuildingData>();
+                        buildingData.buildTime = item.BuildTime;
                     }
                     catch (Exception)
                     {

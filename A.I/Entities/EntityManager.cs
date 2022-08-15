@@ -21,8 +21,8 @@ namespace Cardinal.AI.Entities
     [System.Serializable]
     public class SpawnedCharacter
     {
-        public string IdentifierName;
-        public EntityData CharacterData;
+        public string IdentifierName = "";
+        public EntityData CharacterData = null;
     }
 
     public class EntityManager : CardinalSingleton<EntityManager>
@@ -30,7 +30,7 @@ namespace Cardinal.AI.Entities
         [SerializeField]
         List<Character> npcList;
         [SerializeField]
-        List<GameObject> spawnedCharacters;
+        List<GameObject> spawnedCharacters = new();
         // Start is called before the first frame update
         void Start()
         {
@@ -103,7 +103,7 @@ namespace Cardinal.AI.Entities
             }
         }
 
-        void SaveCharacters()
+        public void SaveCharacters()
         {
             var dataSystem = DataManager.Instance;
             var saveGame = dataSystem.GetSaveData();
@@ -117,6 +117,20 @@ namespace Cardinal.AI.Entities
                 saveGame.Characters.Add(thisCharacter);
             }
             dataSystem.SaveDataToFile();
+        }
+
+        public void LoadCharacters()
+        {
+            var dataSystem = DataManager.Instance;
+            var saveGame = dataSystem.LoadDataFromFile().Characters;
+            foreach (var item in saveGame)
+            {
+                var selectedNewCharacter = npcList.Where(x => x.CharacterName == item.IdentifierName).FirstOrDefault();
+                var newCharacter = Instantiate(selectedNewCharacter.CharacterGO);
+                var characterData = newCharacter.GetComponent<Entity>().Data;
+                characterData = item.CharacterData;
+                spawnedCharacters.Add(newCharacter);
+            }
         }
     }
 }

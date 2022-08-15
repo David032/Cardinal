@@ -29,7 +29,7 @@ namespace Cardinal.World
 
         public float timer;
 
-        [Range(1, 10)]
+        [Range(1, 30)]
         public int timeRate = 1;
 
         public Cycle timeCycle = Cycle.Day;
