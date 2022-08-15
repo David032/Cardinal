@@ -6,18 +6,18 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using CardinalSystems.PlayFab;
+using Unity.AI.Navigation;
 
 namespace Cardinal.Builder
 {
-
-
     public class AreaManager : CardinalSingleton<AreaManager>
     {
+        NavMeshSurface navMeshController;
 
         // Start is called before the first frame update
         void Start()
         {
-
+            navMeshController = GetComponent<NavMeshSurface>();
         }
 
         // Update is called once per frame
@@ -37,8 +37,7 @@ namespace Cardinal.Builder
                 {
                     var data = item.construct.GetComponent<BuildingData>();
                     fragment.buildingName = data.Name;
-                    fragment.startDate = data.StartDate;
-                    fragment.completionDate = data.CompletionDate;
+
                 }
                 saveData.Tiles.Add(fragment);
             }
@@ -62,15 +61,13 @@ namespace Cardinal.Builder
                     item.buildingName != "")
                 {
                     _ = cardinalBuilder.PlaceBuilding(item.buildingName);
-                    var tileData = cardinalBuilder.SelectedObject.GetComponent<TileData>();
+                    var tileData =
+                        cardinalBuilder.SelectedObject.GetComponent<TileData>();
 
                     try
                     {
                         var buildingData =
                             tileData.construct.GetComponent<BuildingData>();
-
-                        buildingData.StartDate = item.startDate;
-                        buildingData.CompletionDate = item.completionDate;
                     }
                     catch (Exception)
                     {
@@ -79,6 +76,11 @@ namespace Cardinal.Builder
 
                 }
             }
+        }
+
+        public void BuildNavMesh()
+        {
+            navMeshController.BuildNavMesh();
         }
     }
 }

@@ -20,10 +20,11 @@ namespace Cardinal.World
 
     public class TimeManager : CardinalSingleton<TimeManager>
     {
+        [SerializeField]
         int days;
-        [Range(0, 10)]
+        [SerializeField]
         int minutes;
-        [Range(0, 60)]
+        [SerializeField]
         int seconds;
 
         public float timer;
@@ -51,10 +52,9 @@ namespace Cardinal.World
             if (minutes >= 24)
             {
                 days += 1;
-                timer -= 600;
+                timer -= 1440;
                 DayChange.Invoke();
             }
-
             UpdateIndicators();
         }
 

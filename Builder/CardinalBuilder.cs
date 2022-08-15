@@ -60,8 +60,10 @@ namespace Cardinal.Builder
                 if (newBuild.GetComponent<BuildingData>())
                 {
                     newBuild.GetComponent<BuildingData>().OnPlace();
+                    newBuild.GetComponent<BuildingData>().AttachedTile = tile;
                 }
                 UpdateTiles();
+                AreaManager.Instance.BuildNavMesh();
                 return true;
             }
             else

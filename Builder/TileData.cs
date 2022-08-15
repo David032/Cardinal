@@ -9,6 +9,7 @@ namespace Cardinal.Builder
     {
         public int xPos;
         public int yPos;
+        public Vector2 Position => new(xPos, yPos);
 
         public GameObject construct;
         public bool isStructureBuildable = true;
