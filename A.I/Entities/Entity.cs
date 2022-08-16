@@ -11,16 +11,19 @@ namespace Cardinal.AI.Entities
     public class EntityData
     {
         public string EntityName;
+        public PhysicalAbility PhysicalSkill = PhysicalAbility.Normal;
+        public MentalAbility MentalSkill = MentalAbility.Normal;
         public Vector2 HomeLocation;
-        BuildingData Home => CardinalBuilder.Instance.GetTiles().Where
+        public BuildingData Home => CardinalBuilder.Instance.GetTiles().Where
                     (x => x.xPos == HomeLocation.x && x.yPos == HomeLocation.y)
                     .FirstOrDefault().construct.GetComponent<BuildingData>();
         public Vector2 WorkLocation;
-        BuildingData Work => CardinalBuilder.Instance.GetTiles().Where
+        public WorkBuilding Work => CardinalBuilder.Instance.GetTiles().Where
                     (x => x.xPos == WorkLocation.x && x.yPos == WorkLocation.y)
-                    .FirstOrDefault().construct.GetComponent<BuildingData>();
+                    .FirstOrDefault().construct.GetComponent<WorkBuilding>();
     }
 
+    //Entity is purely for AI DATA, see AI.behaviour for behaviour
     public class Entity : MonoBehaviour
     {
         public EntityData Data;

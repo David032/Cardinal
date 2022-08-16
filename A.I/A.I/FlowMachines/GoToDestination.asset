@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e66c6366d904e98bc83428217d4fd7, type: 3}
+  m_Name: GoToDestination
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"graph":{"variables":{"collection":{"$content":[],"$version":"A"},"$version":"A"},"controlInputDefinitions":[{"key":"Set
+      Destination","label":null,"summary":null,"hideLabel":false}],"controlOutputDefinitions":[],"valueInputDefinitions":[{"hasDefaultValue":false,"defaultValue":{"x":0.0,"y":0.0,"z":0.0,"$type":"UnityEngine.Vector3"},"_type":"UnityEngine.Vector3","key":"Destination","label":null,"summary":null,"hideLabel":false}],"valueOutputDefinitions":[],"title":"Go
+      to Destination","summary":"Moves to a vector3 in worldspace","pan":{"x":-107.7722,"y":-59.68333},"zoom":1.0,"elements":[{"defaultValues":{},"position":{"x":-516.0,"y":-171.0},"guid":"fd85b636-c4e7-4988-a1bf-582fdde62712","$version":"A","$type":"Unity.VisualScripting.GraphInput","$id":"11"},{"chainable":false,"member":{"name":"GetComponent","parameterTypes":["System.Type"],"targetType":"UnityEngine.Component","targetTypeName":"UnityEngine.Component","$version":"A"},"defaultValues":{"target":null,"%type":{"$content":"UnityEngine.AI.NavMeshAgent","$type":"System.RuntimeType"}},"position":{"x":-260.0,"y":-187.0},"guid":"bb018937-8d83-4d30-b4bf-bf4d181fc165","$version":"A","$type":"Unity.VisualScripting.InvokeMember","$id":"13"},{"chainable":false,"member":{"name":"destination","parameterTypes":null,"targetType":"UnityEngine.AI.NavMeshAgent","targetTypeName":"UnityEngine.AI.NavMeshAgent","$version":"A"},"defaultValues":{"target":null,"input":{"x":0.0,"y":0.0,"z":0.0,"$type":"UnityEngine.Vector3"}},"position":{"x":134.0,"y":-186.0},"guid":"08b6b2ff-45a2-4610-8b74-7d45f0813236","$version":"A","$type":"Unity.VisualScripting.SetMember","$id":"16"},{"sourceUnit":{"$ref":"13"},"sourceKey":"exit","destinationUnit":{"$ref":"16"},"destinationKey":"assign","guid":"812200e0-bc5a-40f6-83a0-062e69dbb3c2","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"Set
+      Destination","destinationUnit":{"$ref":"13"},"destinationKey":"enter","guid":"cba7c34f-0933-40ba-84e9-d1ec124a395a","$type":"Unity.VisualScripting.ControlConnection"},{"sourceUnit":{"$ref":"13"},"sourceKey":"result","destinationUnit":{"$ref":"16"},"destinationKey":"target","guid":"4b748a65-f2ae-4b99-af78-fa0278e889ef","$type":"Unity.VisualScripting.ValueConnection"},{"sourceUnit":{"$ref":"11"},"sourceKey":"Destination","destinationUnit":{"$ref":"16"},"destinationKey":"input","guid":"382e33ba-b3c4-4c04-970f-1062fd892288","$type":"Unity.VisualScripting.ValueConnection"}],"$version":"A"}}'
+    _objectReferences: []

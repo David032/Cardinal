@@ -11,6 +11,20 @@ namespace Cardinal
         Dungeon,
         Loading
     }
+
+    //Need much better values for abilities
+    public enum PhysicalAbility
+    {
+        Weak = -1,
+        Normal = 0,
+        Strong = 1,
+    }
+    public enum MentalAbility
+    {
+        Dumb = -1,
+        Normal = 0,
+        Smart = 1,
+    }
     public enum BehaviourTypes
     {
         Attacker,

@@ -100,8 +100,21 @@ namespace Cardinal.AI.Entities
                     selectedNewCharacter.CharacterName;
 
                 spawnedCharacters.Add(newCharacter);
+                //Try to give them a job?
             }
         }
+
+        void AssignJob(GameObject character)
+        {
+            List<WorkBuilding> workBuildingList = new();
+            var builder = CardinalBuilder.Instance;
+            var tiles = builder.GetTiles();
+            List<TileData> WorkTiles = tiles.Where(x => x.construct
+            != null && x.construct.GetComponent<WorkBuilding>()).ToList();
+
+
+        }
+
 
         public void SaveCharacters()
         {
