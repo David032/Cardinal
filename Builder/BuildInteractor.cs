@@ -141,6 +141,7 @@ namespace Cardinal.Builder
         {
             AreaManager.Instance.LoadAreaData();
             EntityManager.Instance.LoadCharacters();
+            EntityManager.Instance.ReattachEntities();
         }
         void CenterOnTarget(GameObject target)
         {

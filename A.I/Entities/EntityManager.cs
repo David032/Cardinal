@@ -57,8 +57,8 @@ namespace Cardinal.AI.Entities
             foreach (var item in ResidentialTiles)
             {
                 var residenceData = item.construct.GetComponent<ResidentialBuilding>();
-                bedTotal += residenceData.BuildingOccupants.MaxBeds;
-                freeBeds += residenceData.BuildingOccupants.AvailableBeds();
+                bedTotal += residenceData.BuildingOccupants.MaxOccupants;
+                freeBeds += residenceData.BuildingOccupants.OccupancyAvailability();
                 potentialResidences.Add(residenceData);
             }
 
@@ -90,7 +90,7 @@ namespace Cardinal.AI.Entities
                 var newCharacter =
                     Instantiate(selectedNewCharacter.CharacterGO);
                 List<ResidentialBuilding> potentialResidences = residences.Where
-                    (x => x.BuildingOccupants.AvailableBeds() != 0).ToList();
+                    (x => x.BuildingOccupants.OccupancyAvailability() != 0).ToList();
                 int randomHomeSelection = Random.Range
                     (0, potentialResidences.Count);
                 var characterHome = potentialResidences[randomHomeSelection];
@@ -98,9 +98,11 @@ namespace Cardinal.AI.Entities
                     characterHome.AttachedTile.Position;
                 newCharacter.GetComponent<Entity>().Identifier =
                     selectedNewCharacter.CharacterName;
+                characterHome.BuildingOccupants.
+                    AddOccupant(newCharacter.GetComponent<Entity>());
 
                 spawnedCharacters.Add(newCharacter);
-                //Try to give them a job?
+                AssignJob(newCharacter);
             }
         }
 
@@ -110,12 +112,21 @@ namespace Cardinal.AI.Entities
             var builder = CardinalBuilder.Instance;
             var tiles = builder.GetTiles();
             List<TileData> WorkTiles = tiles.Where(x => x.construct
-            != null && x.construct.GetComponent<WorkBuilding>()).ToList();
-
-
+            != null && x.construct.GetComponent<WorkBuilding>() &&
+            x.construct.GetComponent<WorkBuilding>().BuildingWorkers.HasSpace)
+                .ToList();
+            if (WorkTiles.Count == 0 || WorkTiles is null)
+            {
+                return;
+            }
+            int randomSelection = Random.Range(0, WorkTiles.Count);
+            var selectedPlace = WorkTiles[randomSelection].construct
+                .GetComponent<WorkBuilding>();
+            selectedPlace.BuildingWorkers
+                .AddOccupant(character.GetComponent<Entity>());
+            character.GetComponent<Entity>().Data.WorkLocation
+                = WorkTiles[randomSelection].Position;
         }
-
-
         public void SaveCharacters()
         {
             var dataSystem = DataManager.Instance;
@@ -131,18 +142,47 @@ namespace Cardinal.AI.Entities
             }
             dataSystem.SaveDataToFile();
         }
-
         public void LoadCharacters()
         {
             var dataSystem = DataManager.Instance;
             var saveGame = dataSystem.LoadDataFromFile().Characters;
             foreach (var item in saveGame)
             {
-                var selectedNewCharacter = npcList.Where(x => x.CharacterName == item.IdentifierName).FirstOrDefault();
+                var selectedNewCharacter = npcList.Where
+                    (x => x.CharacterName == item.IdentifierName)
+                    .FirstOrDefault();
                 var newCharacter = Instantiate(selectedNewCharacter.CharacterGO);
-                var characterData = newCharacter.GetComponent<Entity>().Data;
-                characterData = item.CharacterData;
+                newCharacter.GetComponent<Entity>().Data = item.CharacterData;
                 spawnedCharacters.Add(newCharacter);
+            }
+        }
+        public List<GameObject> GetAllCharacters() { return spawnedCharacters; }
+
+        public void ReattachEntities()
+        {
+            //For each spawned character, find their home/work aand add them to it
+            var characters = spawnedCharacters;
+            var tiles = CardinalBuilder.Instance.GetTiles();
+
+            foreach (var item in characters)
+            {
+                var entity = item.GetComponent<Entity>();
+                if (entity.Data.HomeLocation != Vector2.zero)
+                {
+                    var home = tiles
+                        .Where(x => x.Position == entity.Data.HomeLocation)
+                        .FirstOrDefault();
+                    home.construct.GetComponent<ResidentialBuilding>()
+                        .BuildingOccupants.AddOccupant(entity);
+                }
+                if (entity.Data.WorkLocation != Vector2.zero)
+                {
+                    var work = tiles
+                        .Where(x => x.Position == entity.Data.WorkLocation)
+                        .FirstOrDefault();
+                    var workplace = work.construct.GetComponent<WorkBuilding>();
+                    workplace.BuildingWorkers.AddOccupant(entity);
+                }
             }
         }
     }

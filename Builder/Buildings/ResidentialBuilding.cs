@@ -5,40 +5,6 @@ using UnityEngine;
 
 namespace Cardinal.Builder
 {
-    [Serializable]
-    public class OccupancyData
-    {
-        public List<AI.Entities.Entity> residents;
-        public int MaxBeds;
-        public int CurrentlyOccupiedBeds;
-        public bool HasSpace
-        {
-            get
-            {
-                if (CurrentlyOccupiedBeds == MaxBeds)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-        }
-
-        //Assume suitablity check has already been passed
-        public void AddOccupant(AI.Entities.Entity resident)
-        {
-            residents.Add(resident);
-            CurrentlyOccupiedBeds++;
-        }
-
-        public int AvailableBeds()
-        {
-            return MaxBeds - CurrentlyOccupiedBeds;
-        }
-
-    }
 
     public class ResidentialBuilding : BuildingData
     {

@@ -38,7 +38,19 @@ namespace Cardinal.Builder
                     var data = item.construct.GetComponent<BuildingData>();
                     fragment.buildingName = data.Name;
                     fragment.BuildTime = data.buildTime;
+                    if (data is ResidentialBuilding)
+                    {
+                        fragment.BuildingInternalData = item.construct
+                            .GetComponent<ResidentialBuilding>()
+                            .BuildingOccupants;
+                    }
+                    if (data is WorkBuilding)
+                    {
+                        fragment.BuildingInternalData = item.construct.
+                            GetComponent<WorkBuilding>().
+                            BuildingWorkers;
 
+                    }
                 }
                 saveData.Tiles.Add(fragment);
             }
@@ -70,10 +82,32 @@ namespace Cardinal.Builder
                         var buildingData =
                             tileData.construct.GetComponent<BuildingData>();
                         buildingData.buildTime = item.BuildTime;
+                        if (buildingData is ResidentialBuilding)
+                        {
+                            tileData.construct
+                                .GetComponent<ResidentialBuilding>()
+                                .BuildingOccupants = item.BuildingInternalData;
+                            tileData.construct
+                                .GetComponent<ResidentialBuilding>()
+                                .BuildingOccupants.occupants = new();
+                            tileData.construct
+                                .GetComponent<ResidentialBuilding>()
+                                .BuildingOccupants.CurrentOccupants = 0;
+                        }
+                        if (buildingData is WorkBuilding)
+                        {
+                            tileData.construct
+                                .GetComponent<WorkBuilding>()
+                                .BuildingWorkers = item.BuildingInternalData;
+                            tileData.construct.GetComponent<WorkBuilding>()
+                                .BuildingWorkers.occupants = new();
+                            tileData.construct.GetComponent<WorkBuilding>()
+                                .BuildingWorkers.CurrentOccupants = 0;
+                        }
                     }
                     catch (Exception)
                     {
-                        print("Oi!");
+                        print("Something might have gone wrong? Possibly?");
                     }
 
                 }

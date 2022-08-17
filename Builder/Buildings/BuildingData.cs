@@ -22,7 +22,40 @@ namespace Cardinal.Builder
         }
     }
 
+    [Serializable]
+    public class OccupancyData
+    {
+        public List<AI.Entities.Entity> occupants;
+        public int MaxOccupants;
+        public int CurrentOccupants;
+        public bool HasSpace
+        {
+            get
+            {
+                if (CurrentOccupants == MaxOccupants)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
 
+        //Assume suitablity check has already been passed
+        public void AddOccupant(AI.Entities.Entity character)
+        {
+            occupants.Add(character);
+            CurrentOccupants++;
+        }
+
+        public int OccupancyAvailability()
+        {
+            return MaxOccupants - CurrentOccupants;
+        }
+
+    }
 
     public class BuildingData : MonoBehaviour
     {
